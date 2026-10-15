@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: legit-earning-alert-bot
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py --web
+    envVars:
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: TELEGRAM_CHAT_ID
+        sync: false
+      - key: CHECK_INTERVAL_MINUTES
+        value: 30
+      - key: MIN_LEGITIMACY_SCORE
+        value: 40

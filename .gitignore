@@ -1,0 +1,7 @@
+.env
+opportunities.db
+__pycache__/
+*.pyc
+venv/
+.idea/
+.vscode/
