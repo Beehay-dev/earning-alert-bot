@@ -138,6 +138,21 @@ def run_web_service(notifier: TelegramNotifier):
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps({"status": "sweep_complete", "new_matches": new_items}).encode("utf-8"))
+            elif self.path == "/test":
+                connection = notifier.test_connection()
+                send_result = notifier.send_message_detailed("🔔 <b>Render Test Alert:</b> Your Telegram bot is connected and working successfully!")
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                diag = {
+                    "token_configured": bool(notifier.bot_token),
+                    "token_preview": (notifier.bot_token[:6] + "..." + notifier.bot_token[-4:]) if notifier.bot_token else None,
+                    "chat_id_configured": bool(notifier.chat_id),
+                    "chat_id_value": notifier.chat_id or None,
+                    "telegram_getMe": connection,
+                    "send_message_result": send_result,
+                }
+                self.wfile.write(json.dumps(diag).encode("utf-8"))
             else:
                 self.send_response(404)
                 self.end_headers()

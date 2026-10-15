@@ -51,6 +51,27 @@ class TelegramNotifier:
             print(f"[Telegram Network Error] {e}")
             return False
 
+    def send_message_detailed(self, text: str) -> dict:
+        """Sends message and returns detailed Telegram API response for debugging."""
+        if not self.bot_token:
+            return {"ok": False, "error": "TELEGRAM_BOT_TOKEN is empty"}
+        if not self.chat_id:
+            return {"ok": False, "error": "TELEGRAM_CHAT_ID is empty"}
+
+        url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
+        payload = {
+            "chat_id": self.chat_id,
+            "text": text,
+            "parse_mode": "HTML",
+            "disable_web_page_preview": False,
+        }
+
+        try:
+            resp = requests.post(url, json=payload, timeout=12)
+            return resp.json()
+        except Exception as e:
+            return {"ok": False, "error": str(e)}
+
     def send_opportunity(self, opp: Opportunity) -> bool:
         """Formats and sends an opportunity card to Telegram."""
         safe_title = html.escape(opp.title)
