@@ -9,8 +9,22 @@ BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
 
 # Telegram Bot Config
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
+def get_telegram_token() -> str:
+    candidates = ["TELEGRAM_BOT_TOKEN", "TELEGRAM_TOKEN", "BOT_TOKEN", "TELEGRAMBOTTOKEN"]
+    for k, v in os.environ.items():
+        if k.strip().upper() in candidates and v.strip():
+            return v.strip()
+    return os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
+
+def get_telegram_chat_id() -> str:
+    candidates = ["TELEGRAM_CHAT_ID", "CHAT_ID", "TELEGRAM_ID", "TELEGRAMCHATID"]
+    for k, v in os.environ.items():
+        if k.strip().upper() in candidates and v.strip():
+            return v.strip()
+    return os.getenv("TELEGRAM_CHAT_ID", "").strip()
+
+TELEGRAM_BOT_TOKEN = get_telegram_token()
+TELEGRAM_CHAT_ID = get_telegram_chat_id()
 
 # Monitoring Settings
 CHECK_INTERVAL_MINUTES = int(os.getenv("CHECK_INTERVAL_MINUTES", "30"))

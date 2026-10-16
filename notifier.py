@@ -8,19 +8,27 @@ class TelegramNotifier:
     """Delivers opportunity alerts directly to Telegram channel or direct chat"""
 
     def __init__(self, bot_token: Optional[str] = None, chat_id: Optional[str] = None):
-        self.bot_token = bot_token or config.TELEGRAM_BOT_TOKEN
-        self.chat_id = chat_id or config.TELEGRAM_CHAT_ID
+        self._bot_token = bot_token
+        self._chat_id = chat_id
+
+    @property
+    def token(self) -> str:
+        return (self._bot_token or config.get_telegram_token()).strip()
+
+    @property
+    def chat(self) -> str:
+        return (self._chat_id or config.get_telegram_chat_id()).strip()
 
     @property
     def is_configured(self) -> bool:
-        return bool(self.bot_token and self.chat_id)
+        return bool(self.token and self.chat)
 
     def test_connection(self) -> dict:
         """Verifies Telegram Bot Token validity against Telegram API."""
-        if not self.bot_token:
+        if not self.token:
             return {"ok": False, "error": "Bot token not provided"}
         try:
-            url = f"https://api.telegram.org/bot{self.bot_token}/getMe"
+            url = f"https://api.telegram.org/bot{self.token}/getMe"
             resp = requests.get(url, timeout=10)
             return resp.json()
         except Exception as e:
@@ -32,9 +40,9 @@ class TelegramNotifier:
             print(f"[Console Alert]:\n{text}\n")
             return True
 
-        url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
+        url = f"https://api.telegram.org/bot{self.token}/sendMessage"
         payload = {
-            "chat_id": self.chat_id,
+            "chat_id": self.chat,
             "text": text,
             "parse_mode": "HTML",
             "disable_web_page_preview": False,
@@ -53,14 +61,14 @@ class TelegramNotifier:
 
     def send_message_detailed(self, text: str) -> dict:
         """Sends message and returns detailed Telegram API response for debugging."""
-        if not self.bot_token:
+        if not self.token:
             return {"ok": False, "error": "TELEGRAM_BOT_TOKEN is empty"}
-        if not self.chat_id:
+        if not self.chat:
             return {"ok": False, "error": "TELEGRAM_CHAT_ID is empty"}
 
-        url = f"https://api.telegram.org/bot{self.bot_token}/sendMessage"
+        url = f"https://api.telegram.org/bot{self.token}/sendMessage"
         payload = {
-            "chat_id": self.chat_id,
+            "chat_id": self.chat,
             "text": text,
             "parse_mode": "HTML",
             "disable_web_page_preview": False,

@@ -139,16 +139,26 @@ def run_web_service(notifier: TelegramNotifier):
                 self.end_headers()
                 self.wfile.write(json.dumps({"status": "sweep_complete", "new_matches": new_items}).encode("utf-8"))
             elif self.path == "/test":
-                connection = notifier.test_connection()
-                send_result = notifier.send_message_detailed("🔔 <b>Render Test Alert:</b> Your Telegram bot is connected and working successfully!")
+                from dotenv import load_dotenv
+                load_dotenv(config.BASE_DIR / ".env", override=True)
+
+                current_token = config.get_telegram_token()
+                current_chat_id = config.get_telegram_chat_id()
+                active_notifier = TelegramNotifier(bot_token=current_token, chat_id=current_chat_id)
+
+                connection = active_notifier.test_connection()
+                send_result = active_notifier.send_message_detailed("🔔 <b>Render Test Alert:</b> Your Telegram bot is connected and working successfully!")
+                matching_keys = [k for k in os.environ.keys() if any(w in k.upper() for w in ("TELEGRAM", "BOT", "CHAT", "TOKEN"))]
+
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
                 diag = {
-                    "token_configured": bool(notifier.bot_token),
-                    "token_preview": (notifier.bot_token[:6] + "..." + notifier.bot_token[-4:]) if notifier.bot_token else None,
-                    "chat_id_configured": bool(notifier.chat_id),
-                    "chat_id_value": notifier.chat_id or None,
+                    "token_configured": bool(current_token),
+                    "token_preview": (current_token[:6] + "..." + current_token[-4:]) if current_token else None,
+                    "chat_id_configured": bool(current_chat_id),
+                    "chat_id_value": current_chat_id or None,
+                    "matching_env_keys_on_server": matching_keys,
                     "telegram_getMe": connection,
                     "send_message_result": send_result,
                 }
