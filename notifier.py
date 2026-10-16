@@ -94,8 +94,12 @@ class TelegramNotifier:
             badges.append("⚡ <b>[FCFS - ACT FAST! LIMITED SPOTS]</b>")
         if "Telegram" in opp.category or "t.me/" in opp.link or any("Telegram" in f for f in opp.flags):
             badges.append("🤖 <b>[TELEGRAM BOT / MINI-APP]</b>")
-
         badge_header = ("\n".join(badges) + "\n\n") if badges else ""
+
+        score_bar = "🟢" if opp.score >= 70 else "🟡"
+        flags_text = ""
+        if opp.flags:
+            flags_text = "\n" + "\n".join([f"  • {html.escape(f)}" for f in opp.flags[:3]])
 
         message = (
             f"{badge_header}🎯 <b>NEW LEGIT EARNING OPPORTUNITY</b>\n\n"

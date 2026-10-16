@@ -133,7 +133,8 @@ def run_web_service(notifier: TelegramNotifier):
                 }
                 self.wfile.write(json.dumps(data).encode("utf-8"))
             elif self.path == "/sweep":
-                new_items = run_sweep(notifier)
+                active_notifier = TelegramNotifier()
+                new_items = run_sweep(active_notifier)
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
