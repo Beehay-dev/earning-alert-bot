@@ -52,7 +52,24 @@ def evaluate_legitimacy(title: str, text: str, url: str, upvotes: int = 0) -> Tu
             score += 15
             flags.append("🤖 Free Telegram Bot / Mini-App Task")
 
-    # 3. Trusted Platform / Domain Boosts
+    # 5. Remote AI & Tech Talent Detection (Mercor, Micro1, Turing, Alignerr, RLHF)
+    ai_platforms = ["mercor", "micro1", "turing", "alignerr", "dataannotation", "outlier", "mindrift", "scale.com", "invisible tech"]
+    ai_roles = ["ai engineer", "ai developer", "ai trainer", "prompt engineer", "llm evaluation", "machine learning", "rlhf", "model trainer", "data annotator", "ai specialist"]
+
+    is_ai_platform = any(p in combined for p in ai_platforms)
+    is_ai_role = any(r in combined for r in ai_roles)
+
+    if is_ai_platform:
+        score += 25
+        flags.append("🧠 Verified AI Platform Match")
+    elif is_ai_role:
+        score += 15
+        flags.append("🤖 Remote AI / ML / Prompt Engineering Role")
+
+    if any(rem in combined for rem in ["remote", "work from home", "anywhere", "worldwide"]):
+        flags.append("🌍 Remote Opportunity")
+
+    # 6. Trusted Platform / Domain Boosts
     for trusted in config.TRUSTED_PLATFORMS:
         if trusted in url.lower() or trusted in combined:
             score += 35

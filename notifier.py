@@ -94,6 +94,8 @@ class TelegramNotifier:
             badges.append("⚡ <b>[FCFS - ACT FAST! LIMITED SPOTS]</b>")
         if "Telegram" in opp.category or "t.me/" in opp.link or any("Telegram" in f for f in opp.flags):
             badges.append("🤖 <b>[TELEGRAM BOT / MINI-APP]</b>")
+        if any("AI" in f for f in opp.flags) or "AI" in opp.category or any(p in opp.category.lower() for p in ["mercor", "micro1", "turing", "alignerr"]):
+            badges.append("🧠 <b>[REMOTE AI / TECH TALENT ROLE]</b>")
         badge_header = ("\n".join(badges) + "\n\n") if badges else ""
 
         score_bar = "🟢" if opp.score >= 70 else "🟡"

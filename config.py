@@ -38,10 +38,19 @@ DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.
 
 # High-trust domains and platforms
 TRUSTED_PLATFORMS = [
-    "prolific.com",
-    "usertesting.com",
+    "mercor.com",
+    "micro1.ai",
+    "turing.com",
+    "alignerr.com",
     "outlier.ai",
     "dataannotation.tech",
+    "mindrift.ai",
+    "invisible.co",
+    "scale.com",
+    "braintrust.com",
+    "toptal.com",
+    "prolific.com",
+    "usertesting.com",
     "oneforma.com",
     "clickworker.com",
     "appen.com",
@@ -60,6 +69,9 @@ TRUSTED_PLATFORMS = [
     "reddit.com/r/WorkOnline",
     "reddit.com/r/forhire",
     "reddit.com/r/freelance_forhire",
+    "reddit.com/r/dataannotation",
+    "reddit.com/r/outlier_ai",
+    "reddit.com/r/remotework",
 ]
 
 # Definite Scam Indicators (Penalty or instant rejection)
@@ -91,8 +103,11 @@ SCAM_KEYWORDS = [
 
 # Reddit subreddits to monitor
 REDDIT_SOURCES = [
-    {"subreddit": "beermoney", "category": "Micro-Tasks & Surveys", "min_score": 10},
+    {"subreddit": "dataannotation", "category": "Remote AI Training & RLHF", "min_score": 3},
+    {"subreddit": "outlier_ai", "category": "Remote AI Training & RLHF", "min_score": 3},
+    {"subreddit": "remotework", "category": "Remote AI & Tech Jobs", "min_score": 5},
     {"subreddit": "WorkOnline", "category": "Remote Work & Gigs", "min_score": 10},
+    {"subreddit": "beermoney", "category": "Micro-Tasks & Surveys", "min_score": 10},
     {"subreddit": "signupsforpay", "category": "FCFS & Signup Bonuses", "min_score": 1},
     {"subreddit": "freebies", "category": "Freebies & Promo Rewards", "min_score": 5},
     {"subreddit": "TelegramAirdrop", "category": "Telegram Bots & Airdrops", "min_score": 2},
@@ -105,6 +120,16 @@ REDDIT_SOURCES = [
 
 # RSS / Public feeds to monitor
 RSS_SOURCES = [
+    {
+        "name": "WeWorkRemotely - Machine Learning & AI",
+        "url": "https://weworkremotely.com/categories/remote-machine-learning-jobs.rss",
+        "category": "Remote AI & ML Jobs",
+    },
+    {
+        "name": "RemoteOK - AI & Machine Learning",
+        "url": "https://remoteok.com/remote-ai-jobs.rss",
+        "category": "Remote AI & ML Jobs",
+    },
     {
         "name": "WeWorkRemotely - All Remote",
         "url": "https://weworkremotely.com/remote-jobs.rss",
@@ -124,6 +149,30 @@ RSS_SOURCES = [
 
 # Curated Web Search queries for DuckDuckGo
 SEARCH_QUERIES = [
+    {
+        "query": "mercor remote jobs ai software engineer apply",
+        "category": "Remote AI Jobs (Mercor)",
+    },
+    {
+        "query": "micro1 remote ai engineer developer apply",
+        "category": "Remote AI Jobs (Micro1)",
+    },
+    {
+        "query": "turing remote software developer ai trainer jobs",
+        "category": "Remote AI Jobs (Turing)",
+    },
+    {
+        "query": "alignerr ai trainer specialist apply remote",
+        "category": "Remote AI Training (Alignerr)",
+    },
+    {
+        "query": "dataannotation outlier ai remote coding specialist apply",
+        "category": "Remote AI Training & RLHF",
+    },
+    {
+        "query": "remote ai prompt engineer llm evaluator jobs",
+        "category": "Remote AI & LLM Jobs",
+    },
     {
         "query": "apps that pay you to register free no deposit 2026",
         "category": "FCFS & Signup Bonuses",
